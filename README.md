@@ -1,4 +1,5 @@
-# Here is a High school project on android technology. The project is a contact list
+# Android contact list
+Here is a High school project on android technology. The project is a contact list
 
 ----
 ## References
