@@ -34,12 +34,17 @@ import android.util.Log;
  * of using a collection of inner classes (which is less scalable and not
  * recommended).
  */
-public class NotesDbAdapter {
+public class ContactDbAdapter {
 
-    public static final String KEY_TITLE = "title";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_SURNAME = "surname";
+    public static final String KEY_PHONE = "phone";
+    public static final String KEY_MAIL = "mail";
+    public static final String KEY_ADDRESS = "address";
+    public static final String KEY_IMAGE = "image";
     public static final String KEY_ROWID = "_id";
 
-    private static final String TAG = "NotesDbAdapter";
+    private static final String TAG = "contactsDbAdapter";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
@@ -47,11 +52,16 @@ public class NotesDbAdapter {
      * Database creation sql statement
      */
     private static final String DATABASE_CREATE =
-            "create table notes (_id integer primary key autoincrement, "
-                    + "title text not null);";
+            "create table contacts (_id integer primary key autoincrement, "
+                    + "name text not null,"
+                    + "surname text,"
+                    + "phone text not null,"
+                    + "mail text,"
+                    + "address text ,"
+                    + "image blob);";
 
     private static final String DATABASE_NAME = "data";
-    private static final String DATABASE_TABLE = "notes";
+    private static final String DATABASE_TABLE = "contacts";
     private static final int DATABASE_VERSION = 2;
 
     private final Context mCtx;
@@ -83,7 +93,7 @@ public class NotesDbAdapter {
      *
      * @param ctx the Context within which to work
      */
-    public NotesDbAdapter(Context ctx) {
+    public ContactDbAdapter(Context ctx) {
         this.mCtx = ctx;
     }
 
@@ -96,7 +106,7 @@ public class NotesDbAdapter {
      *         initialization call)
      * @throws SQLException if the database could be neither opened or created
      */
-    public NotesDbAdapter open() throws SQLException {
+    public ContactDbAdapter open() throws SQLException {
         mDbHelper = new DatabaseHelper(mCtx);
         mDb = mDbHelper.getWritableDatabase();
         return this;
@@ -112,13 +122,22 @@ public class NotesDbAdapter {
      * successfully created return the new rowId for that note, otherwise return
      * a -1 to indicate failure.
      *
-     * @param title the title of the action
+     * @param name the contact's name
+     * @param surname the contact's surname
+     * @param phone the phone number
+     * @param mail the contact's mail
+     * @param address the contact's address
+     * @param image the contact's image
      * @return rowId or -1 if failed
      */
-    public long createAction(String title) {
+    public long createAction(String name, String surname, String phone, String mail, String address, byte[] image) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_TITLE, title);
-
+        initialValues.put(KEY_NAME, name);
+        if(!surname.equals("")) initialValues.put(KEY_SURNAME, surname);
+        initialValues.put(KEY_PHONE, phone);
+        if(!mail.equals("")) initialValues.put(KEY_MAIL, mail);
+        if(!address.equals("")) initialValues.put(KEY_ADDRESS, address);
+        if(image != null) initialValues.put(KEY_IMAGE, image);
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
 
@@ -150,7 +169,7 @@ public class NotesDbAdapter {
      */
     public Cursor fetchAllActions() {
 
-        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE
+        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME
         }, null, null, null, null, null);
     }
 
@@ -166,7 +185,7 @@ public class NotesDbAdapter {
         Cursor mCursor =
 
                 mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                                KEY_TITLE}, KEY_ROWID + "=" + rowId, null,
+                                KEY_NAME}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -186,7 +205,7 @@ public class NotesDbAdapter {
      */
     public boolean updateNote(long rowId, String title) {
         ContentValues args = new ContentValues();
-        args.put(KEY_TITLE, title);
+        args.put(KEY_NAME, title);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }

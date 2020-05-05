@@ -10,26 +10,22 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private NotesDbAdapter mDbHelper;
+    private ContactDbAdapter mDbHelper;
 
     private Button myBtn;
     private EditText myEditText;
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Intanciate attributs
-        mDbHelper = new NotesDbAdapter(MainActivity.this);
+        mDbHelper = new ContactDbAdapter(MainActivity.this);
 
 
 
@@ -148,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = mDbHelper.fetchAllActions();
         startManagingCursor(c);
 
-        String[] from = new String[] { NotesDbAdapter.KEY_TITLE };
+        String[] from = new String[] { ContactDbAdapter.KEY_TITLE };
         int[] to = new int[] { R.id.title };
 
         // Now create an array adapter and set it to display using our row
