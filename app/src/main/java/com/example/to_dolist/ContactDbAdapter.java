@@ -118,7 +118,7 @@ public class ContactDbAdapter {
 
 
     /**
-     * Create a new action using the title provided. If the note is
+     * Create a new contact using the data provided. If the note is
      * successfully created return the new rowId for that note, otherwise return
      * a -1 to indicate failure.
      *
@@ -130,7 +130,7 @@ public class ContactDbAdapter {
      * @param image the contact's image
      * @return rowId or -1 if failed
      */
-    public long createAction(String name, String surname, String phone, String mail, String address, byte[] image) {
+    public long createContact(String name, String surname, String phone, String mail, String address, byte[] image) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
         if(!surname.equals("")) initialValues.put(KEY_SURNAME, surname);
@@ -142,50 +142,45 @@ public class ContactDbAdapter {
     }
 
     /**
-     * Delete the action with the given rowId
+     * Delete the contact with the given rowId
      *
-     * @param rowId id of action to delete
+     * @param rowId id of contact to delete
      * @return true if deleted, false otherwise
      */
-    public boolean deleteAction(long rowId) {
+    public boolean deleteContact(long rowId) {
 
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
-    /**
-     * Delete all actions
-     *
-     * @return true if deleted, false otherwise
-     */
-    public boolean deleteAllActions() {
-
-        return mDb.delete(DATABASE_TABLE, null, null) > 0;
-    }
 
     /**
-     * Return a Cursor over the list of all actions in the database
+     * Return a Cursor over the list of all contacts in the database
      *
-     * @return Cursor over all actions
+     * @return Cursor over all contacts
      */
-    public Cursor fetchAllActions() {
+    public Cursor fetchAllContacts() {
 
-        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME
+        return mDb.query(DATABASE_TABLE, new String[] {
+            KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE,
+            KEY_MAIL, KEY_ADDRESS, KEY_IMAGE
         }, null, null, null, null, null);
     }
 
     /**
-     * Return a Cursor positioned at the action that matches the given rowId
+     * Return a Cursor positioned at the contact that matches the given rowId
      *
-     * @param rowId id of action to retrieve
-     * @return Cursor positioned to matching action, if found
+     * @param rowId id of contact to retrieve
+     * @return Cursor positioned to matching contact, if found
      * @throws SQLException if note could not be found/retrieved
      */
-    public Cursor fetchAction(long rowId) throws SQLException {
+    public Cursor fetchContact(long rowId) throws SQLException {
 
         Cursor mCursor =
 
-                mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                                KEY_NAME}, KEY_ROWID + "=" + rowId, null,
+                mDb.query(true, DATABASE_TABLE, new String[] {
+                            KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE,
+                            KEY_MAIL, KEY_ADDRESS, KEY_IMAGE
+                        }, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -195,18 +190,28 @@ public class ContactDbAdapter {
     }
 
     /**
-     * Update the action using the details provided. The action to be updated is
+     * Update the contact using the details provided. The contact to be updated is
      * specified using the rowId, and it is altered to use the title
      * value passed in
      *
-     * @param rowId id of action to update
-     * @param title value to set action title to
-     * @return true if the note was successfully updated, false otherwise
+     * @param rowId id of contact to update
+     * @param name the contact's name
+     * @param surname the contact's surname
+     * @param phone the phone number
+     * @param mail the contact's mail
+     * @param address the contact's address
+     * @param image the contact's image
+     * @return true if the contact was successfully updated, false otherwise
      */
-    public boolean updateNote(long rowId, String title) {
+    public boolean updateContact (long rowId, String name, String surname, String phone, String mail, String address, byte[] image) {
         ContentValues args = new ContentValues();
-        args.put(KEY_NAME, title);
-
+        args.put(KEY_NAME, name);
+        args.put(KEY_NAME, name);
+        if(!surname.equals("")) args.put(KEY_SURNAME, surname);
+        args.put(KEY_PHONE, phone);
+        if(!mail.equals("")) args.put(KEY_MAIL, mail);
+        if(!address.equals("")) args.put(KEY_ADDRESS, address);
+        if(image != null) args.put(KEY_IMAGE, image);
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 }
