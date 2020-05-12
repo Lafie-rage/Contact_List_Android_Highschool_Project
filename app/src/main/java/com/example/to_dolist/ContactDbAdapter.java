@@ -133,11 +133,11 @@ public class ContactDbAdapter {
     public long createContact(String name, String surname, String phone, String mail, String address, byte[] image) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
-        if(!surname.equals("")) initialValues.put(KEY_SURNAME, surname);
+        initialValues.put(KEY_SURNAME, surname);
         initialValues.put(KEY_PHONE, phone);
-        if(!mail.equals("")) initialValues.put(KEY_MAIL, mail);
-        if(!address.equals("")) initialValues.put(KEY_ADDRESS, address);
-        if(image != null) initialValues.put(KEY_IMAGE, image);
+        initialValues.put(KEY_MAIL, mail);
+        initialValues.put(KEY_ADDRESS, address);
+        initialValues.put(KEY_IMAGE, image);
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
 
@@ -163,7 +163,7 @@ public class ContactDbAdapter {
         return mDb.query(DATABASE_TABLE, new String[] {
             KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE,
             KEY_MAIL, KEY_ADDRESS, KEY_IMAGE
-        }, null, null, null, null, null);
+        }, null, null, null, null, KEY_NAME);
     }
 
     /**
@@ -181,7 +181,7 @@ public class ContactDbAdapter {
                             KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE,
                             KEY_MAIL, KEY_ADDRESS, KEY_IMAGE
                         }, KEY_ROWID + "=" + rowId, null,
-                        null, null, null, null);
+                        null, null, KEY_NAME, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
@@ -207,11 +207,11 @@ public class ContactDbAdapter {
         ContentValues args = new ContentValues();
         args.put(KEY_NAME, name);
         args.put(KEY_NAME, name);
-        if(!surname.equals("")) args.put(KEY_SURNAME, surname);
+        args.put(KEY_SURNAME, surname);
         args.put(KEY_PHONE, phone);
-        if(!mail.equals("")) args.put(KEY_MAIL, mail);
-        if(!address.equals("")) args.put(KEY_ADDRESS, address);
-        if(image != null) args.put(KEY_IMAGE, image);
+        args.put(KEY_MAIL, mail);
+        args.put(KEY_ADDRESS, address);
+        args.put(KEY_IMAGE, image);
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 }

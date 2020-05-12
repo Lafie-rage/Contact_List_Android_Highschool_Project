@@ -42,31 +42,31 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        myBtn = findViewById(R.id.monBouton);
+       /* myBtn = findViewById(R.id.monBouton);
         myEditText = findViewById(R.id.monEditText);
-        myListView = findViewById(R.id.maListe);
+        myListView = findViewById(R.id.maListe);*/
 
         // Open DB connection
         mDbHelper.open();
         fillData();
 
-        myBtn.setOnClickListener(new View.OnClickListener() {
+        /*myBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDbHelper.createAction(myEditText.getText().toString());
                 fillData();
                 myEditText.setText("");
             }
-        });
+        });*/
 
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 mDbHelper.deleteAction(id);
                 fillData();
             }
-        });
+        });*/
 
         registerForContextMenu(myListView);
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor SelectedTaskCursor = (Cursor)myListView.getItemAtPosition(info.position);
         final String selectedTask = SelectedTaskCursor.getString(SelectedTaskCursor.getColumnIndex("title"));
         Intent intent;
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case R.id.google:
                 Uri webpage = Uri.parse("http://www.google.com/search?q="+selectedTask);
                 intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 return super.onContextItemSelected(item);
-        }
+        }*/
         // Verifying if the app is ready to receive the intent
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> activites = packageManager.queryIntentActivities(intent, 0);
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case R.id.deleteAll:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage("Are you sure to delete the whole list");
@@ -136,15 +136,15 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return false;
-        }
+        }*/
     }
 
     private void fillData() {
         // Get all of the notes from the database and create the item list
-        Cursor c = mDbHelper.fetchAllActions();
+        Cursor c = mDbHelper.fetchAllContacts();
         startManagingCursor(c);
 
-        String[] from = new String[] { ContactDbAdapter.KEY_TITLE };
+        String[] from = new String[] { ContactDbAdapter.KEY_NAME };
         int[] to = new int[] { R.id.title };
 
         // Now create an array adapter and set it to display using our row
