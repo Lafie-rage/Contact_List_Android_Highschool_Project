@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor SelectedTaskCursor = (Cursor)myListView.getItemAtPosition(info.position);
         final String selectedTask = SelectedTaskCursor.getString(SelectedTaskCursor.getColumnIndex("title"));
         Intent intent;
-        /*switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.google:
                 Uri webpage = Uri.parse("http://www.google.com/search?q="+selectedTask);
                 intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 return super.onContextItemSelected(item);
-        }*/
+        }
         // Verifying if the app is ready to receive the intent
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> activites = packageManager.queryIntentActivities(intent, 0);
@@ -137,10 +137,11 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return false;
         }*/
+        return false;
     }
 
     private void fillData() {
-        // Get all of the notes from the database and create the item list
+        // Get all of the contacts from the database and create the item list
         Cursor c = mDbHelper.fetchAllContacts();
         startManagingCursor(c);
 
