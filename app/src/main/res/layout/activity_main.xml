@@ -7,13 +7,13 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_list"
         android:layout_width="422dp"
         android:layout_height="53dp"
-        android:background="#5A8CFD"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="Vos contacts"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/textPrimaryColor"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
