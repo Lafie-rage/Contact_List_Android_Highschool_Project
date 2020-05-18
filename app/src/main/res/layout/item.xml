@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toStartOf="@+id/surname_list"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/avatar_list"
-        tools:layout_editor_absoluteY="20dp" />
+        app:layout_constraintTop_toTopOf="@+id/avatar_list" />
 
     <TextView
         android:id="@+id/surname_list"
@@ -53,11 +53,12 @@
         android:id="@+id/phone_list"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="+000.00.00.00.00"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/surname_list"
         app:layout_constraintStart_toStartOf="@+id/name_list"
-        tools:layout_editor_absoluteY="85dp" />
+        app:layout_constraintTop_toBottomOf="@+id/surname_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

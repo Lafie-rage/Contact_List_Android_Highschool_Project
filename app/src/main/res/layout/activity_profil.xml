@@ -3,35 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Profil">
 
     <TextView
         android:id="@+id/title_pfl"
-        android:layout_width="422dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:text="Information contact"
+        android:text="Information contact      "
         android:textColor="@color/textPrimaryColor"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/backBtn_pfl"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/modifyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:background="@color/colorPrimary"
         android:text="Modifier"
         android:textColor="@color/textPrimaryColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/delBtn_pfl"
+        app:layout_constraintEnd_toStartOf="@+id/delBtn_pfl"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/callBtn_pfl"
+        app:layout_constraintTop_toTopOf="@+id/delBtn_pfl"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/avatar_pfl"
@@ -47,11 +49,27 @@
 
     <TextView
         android:id="@+id/surname_pfl"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:maxWidth="215dp"
+        android:text="Prénom"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/avatar_pfl"
+        app:layout_constraintTop_toTopOf="@+id/avatar_pfl" />
+
+    <TextView
+        android:id="@+id/phone_pfl"
         android:layout_width="215dp"
         android:layout_height="45dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="45dp"
         android:gravity="center"
-        android:text="Prénom"
+        android:text="00.00.00.00.00"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -59,23 +77,10 @@
         app:layout_constraintTop_toBottomOf="@+id/name_pfl" />
 
     <TextView
-        android:id="@+id/phone_pfl"
-        android:layout_width="215dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="00.00.00.00.00"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surname_pfl" />
-
-    <TextView
         android:id="@+id/mail_pfl"
         android:layout_width="215dp"
         android:layout_height="45dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="45dp"
         android:gravity="center"
         android:text="exemple@mail.com"
         android:textSize="18sp"
@@ -88,35 +93,61 @@
         android:id="@+id/address_pfl"
         android:layout_width="215dp"
         android:layout_height="80dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="00 rue exemple\nExemple 00000"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/modifyBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mail_pfl"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/name_pfl"
-        android:layout_width="215dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
+        android:maxWidth="215dp"
         android:text="Nom"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar_pfl"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar_pfl" />
+        app:layout_constraintStart_toEndOf="@+id/avatar_pfl" />
 
     <ImageView
         android:id="@+id/backBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/abc_vector_test" />
+
+    <ImageView
+        android:id="@+id/callBtn_pfl"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        app:layout_constraintBottom_toBottomOf="@+id/modifyBtn"
+        app:layout_constraintEnd_toStartOf="@+id/modifyBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/modifyBtn"
+        app:srcCompat="@android:drawable/ic_menu_call" />
+
+    <ImageView
+        android:id="@+id/delBtn_pfl"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/modifyBtn"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        tools:layout_editor_absoluteY="645dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

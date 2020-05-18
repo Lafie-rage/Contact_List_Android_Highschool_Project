@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".CreateContact">
 
     <TextView
         android:id="@+id/title_crt"
-        android:layout_width="422dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
@@ -23,13 +24,12 @@
         android:id="@+id/createBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/colorPrimary"
         android:text="Créer"
         android:textColor="@color/textPrimaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -37,13 +37,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
+        android:layout_marginBottom="180dp"
         android:ems="10"
         android:hint="Adresse email"
         android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/createBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_crt" />
+        app:layout_constraintTop_toBottomOf="@+id/address_crt"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/phone_crt"
@@ -56,22 +58,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar_crt" />
+        app:layout_constraintTop_toBottomOf="@+id/surname_crt" />
 
     <EditText
         android:id="@+id/address_crt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
-        android:layout_marginBottom="20dp"
         android:ems="10"
         android:hint="Adresse postale"
         android:inputType="textPostalAddress"
-        app:layout_constraintBottom_toTopOf="@+id/createBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mail_crt"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/phone_crt" />
 
     <EditText
         android:id="@+id/name_crt"
@@ -85,7 +85,6 @@
         android:hint="Nom"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/avatar_crt"
         app:layout_constraintTop_toTopOf="@+id/avatar_crt" />
 
@@ -102,7 +101,6 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_crt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/avatar_crt" />
 
     <ImageView
@@ -112,9 +110,12 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="511dp"
         android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_crt"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_action_name" />
 
     <ImageView
@@ -124,5 +125,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/abc_vector_test" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

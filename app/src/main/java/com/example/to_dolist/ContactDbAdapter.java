@@ -25,8 +25,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Simple notes database access helper class. Defines the basic CRUD operations
- * for the notepad example, and gives the ability to list all notes as well as
+ * Simple contacts database access helper class. Defines the basic CRUD operations
+ * for the notepad example, and gives the ability to list all contacts as well as
  * retrieve or modify a specific note.
  *
  * This has been improved from the first version of this tutorial through the
@@ -82,7 +82,7 @@ public class ContactDbAdapter {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS notes");
+            db.execSQL("DROP TABLE IF EXISTS contacts");
             onCreate(db);
         }
     }
@@ -98,7 +98,7 @@ public class ContactDbAdapter {
     }
 
     /**
-     * Open the notes database. If it cannot be opened, try to create a new
+     * Open the contacts database. If it cannot be opened, try to create a new
      * instance of the database. If it cannot be created, throw an exception to
      * signal the failure
      *
@@ -161,9 +161,8 @@ public class ContactDbAdapter {
     public Cursor fetchAllContacts() {
 
         return mDb.query(DATABASE_TABLE, new String[] {
-            KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE,
-            KEY_MAIL, KEY_ADDRESS, KEY_IMAGE
-        }, null, null, null, null, KEY_NAME);
+            KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE, KEY_IMAGE
+        }, null, null, null, null, null);
     }
 
     /**
