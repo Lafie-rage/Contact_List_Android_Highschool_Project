@@ -162,7 +162,7 @@ public class ContactDbAdapter {
 
         return mDb.query(DATABASE_TABLE, new String[] {
             KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE, KEY_IMAGE
-        }, null, null, null, null, null);
+        }, null, null, null, null, KEY_NAME + " ASC, " + KEY_SURNAME + " ASC, " + KEY_PHONE + " ASC");
     }
 
     /**

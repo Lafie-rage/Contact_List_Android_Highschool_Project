@@ -1,7 +1,9 @@
 package com.example.to_dolist;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -25,13 +27,21 @@ public class Profil extends AppCompatActivity {
         setContentView(R.layout.activity_profil);
 
         Intent intent = getIntent();
-        long contact_id = intent.getLongExtra("id", 0);
+        selectedContact = intent.getLongExtra("id", 0);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Profil.this);
+        builder.setMessage("id : "+ selectedContact);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {return;    }
+        });
+        AlertDialog dialog = builder.show();
 
         // Profil page
         backBtn_pfl = findViewById(R.id.backBtn_pfl);
         modifyBtn = findViewById(R.id.modifyBtn);
 
-        Cursor c = mDbHelper.fetchContact(contact_id); // Show contact
+        Cursor c = mDbHelper.fetchContact(selectedContact); // Show contact
         startManagingCursor(c);
         String[] from = new String[] {  ContactDbAdapter.KEY_NAME,
                 ContactDbAdapter.KEY_SURNAME,

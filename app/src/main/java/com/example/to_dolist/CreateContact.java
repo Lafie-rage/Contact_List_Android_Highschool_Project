@@ -30,6 +30,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
@@ -59,6 +60,7 @@ public class CreateContact extends AppCompatActivity {
     private String action;
     private long id;
     public static final int PICK_PHOTO_FOR_AVATAR = 1;
+    private boolean workingOnInsertion = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,19 +129,19 @@ public class CreateContact extends AppCompatActivity {
                 AlertDialog dialog = builder.show();
                 return;
             }
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+            Uri uri = data.getData();
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
 
-            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-            avatar_crt.setImageBitmap(bitmap);
+                ImageView imageView = (ImageView) findViewById(R.id.avatar_crt);
+                imageView.setImageBitmap(bitmap);
+                imageView.setVisibility(View.VISIBLE);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -172,13 +174,6 @@ public class CreateContact extends AppCompatActivity {
         byte[] avatar = stream.toByteArray();
 
         long rowId = mDbHelper.createContact(name, surname, phone, mail, address, avatar);
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
-        builder.setMessage("Id : " + rowId);
-        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {return;    }
-        });
-        AlertDialog dialog = builder.show();
         return (rowId != -1);
     }
 
@@ -196,6 +191,8 @@ public class CreateContact extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(workingOnInsertion) return;
+                workingOnInsertion = true;
                 if( name_crt.getText().equals("") ||
                         phone_crt.getText().equals("")) { // The minimum required fields
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
@@ -216,18 +213,8 @@ public class CreateContact extends AppCompatActivity {
                 Bitmap avatar = getBitmapFromVectorDrawable(CreateContact.this, avatar_crt.getDrawable());
 
                 if(createUser(name, surname, phone, mail, address, avatar)) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
-                    builder.setMessage("Insertion réussie");
-                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            // Get back to main page
-                            Intent intent = new Intent(CreateContact.this, MainActivity.class);
-                            startActivity(intent);
-                            return;
-                        }
-                    });
-                    AlertDialog dialog = builder.show();
+                    Intent intent = new Intent(CreateContact.this, MainActivity.class);
+                    startActivity(intent);
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
@@ -250,6 +237,8 @@ public class CreateContact extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (workingOnInsertion) return;
+                workingOnInsertion = true;
                 if( name_crt.getText().equals("") ||
                         phone_crt.getText().equals("")) { // The minimum required fields
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
