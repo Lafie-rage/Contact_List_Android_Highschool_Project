@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/google"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Search on google"
-        app:actionViewClass="android.widget.SearchView" />
+        android:id="@+id/call_context"
+        android:title="Appeller ce contact" />
     <item
-        android:id="@+id/google_map"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Search on google map"
-        app:actionViewClass="android.widget.SearchView" />
+        android:id="@+id/del_context"
+        android:title="Supprimer ce contact" />
 </menu>

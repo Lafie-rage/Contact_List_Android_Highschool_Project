@@ -81,29 +81,28 @@
         android:layout_width="215dp"
         android:layout_height="45dp"
         android:layout_marginTop="45dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="exemple@mail.com"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/modifyBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_pfl" />
+        app:layout_constraintTop_toBottomOf="@+id/address_pfl"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/address_pfl"
         android:layout_width="215dp"
         android:layout_height="80dp"
         android:layout_marginTop="45dp"
-        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="00 rue exemple\nExemple 00000"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/modifyBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mail_pfl"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/phone_pfl" />
 
     <TextView
         android:id="@+id/name_pfl"
@@ -145,9 +144,10 @@
         android:id="@+id/delBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/modifyBtn"
-        app:srcCompat="@android:drawable/ic_menu_delete"
-        tools:layout_editor_absoluteY="645dp" />
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 </androidx.constraintlayout.widget.ConstraintLayout>

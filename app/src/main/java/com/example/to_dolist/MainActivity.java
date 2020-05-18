@@ -1,7 +1,9 @@
 package com.example.to_dolist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -9,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private static ContactDbAdapter mDbHelper;
 
     // Main page
-    private EditText myEditText;
     private ListView contactListView;
+
+    private int MY_PERMISSIONS_REQUEST_CALL_PHONE;
 
 
     @Override
@@ -76,28 +80,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Cursor SelectedTaskCursor = (Cursor)contactListView.getItemAtPosition(info.position);
-        final String selectedTask = SelectedTaskCursor.getString(SelectedTaskCursor.getColumnIndex("title"));
-        Intent intent;
+        Cursor selectedTask = (Cursor)contactListView.getItemAtPosition(info.position);
         switch (item.getItemId()) {
-            case R.id.google:
-                Uri webpage = Uri.parse("http://www.google.com/search?q="+selectedTask);
-                intent = new Intent(Intent.ACTION_VIEW, webpage);
-                startActivity(intent);
-                break;
-            case R.id.google_map:
-                Uri location = Uri.parse("geo:0,0?q="+selectedTask);
-                intent = new Intent(Intent.ACTION_VIEW, location);
+            case R.id.call_context:
+                if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            MY_PERMISSIONS_REQUEST_CALL_PHONE);
+                }else {
+                    //Creating intents for making a call
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:"+selectedTask.getString(selectedTask.getColumnIndex("phone"))));
+                    startActivity(callIntent);
+                }
                 break;
             default:
                 return super.onContextItemSelected(item);
         }
-        // Verifying if the app is ready to receive the intent
-        PackageManager packageManager = getPackageManager();
-        List<ResolveInfo> activites = packageManager.queryIntentActivities(intent, 0);
-
-        if (activites.size() > 0)
-            startActivity(intent);
         return true;
     }
 
@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.addContact:
                 Intent intent = new Intent(this, CreateContact.class);
-                String message = "create";
-                intent.putExtra("action", message);
+                String action = "create";
+                intent.putExtra("action", action);
                 startActivity(intent);
                 return true;
             default:

@@ -102,14 +102,6 @@ public class CreateContact extends AppCompatActivity {
             }
         });
 
-        backBtn_crt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CreateContact.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
     @Override
@@ -229,6 +221,13 @@ public class CreateContact extends AppCompatActivity {
                 return;
             }
         });
+        backBtn_crt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateContact.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setAsUpdate() {
@@ -273,6 +272,14 @@ public class CreateContact extends AppCompatActivity {
                 });
                 AlertDialog dialog = builder.show();
                 return;
+            }
+        });
+        backBtn_crt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateContact.this, Profil.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
             }
         });
     }
