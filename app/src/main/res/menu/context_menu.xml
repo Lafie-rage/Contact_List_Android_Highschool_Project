@@ -3,7 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/call_context"
-        android:title="Appeller ce contact" />
+        android:title="Appeler ce contact" />
+    <item
+        android:id="@+id/sms_context"
+        android:title="Envoyer un SMS" />
+    <item
+        android:id="@+id/mail_context"
+        android:title="Envoyer un email" />
+    <item
+        android:id="@+id/loc_context"
+        android:title="Localiser le contact" />
+    <item
+        android:id="@+id/fav_context"
+        android:title="Ajouter aux favoris" />
     <item
         android:id="@+id/del_context"
         android:title="Supprimer ce contact" />

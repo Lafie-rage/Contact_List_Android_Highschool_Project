@@ -12,7 +12,6 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,6 +28,9 @@ public class Profil extends AppCompatActivity {
     private Button modifyBtn;
     private ImageView callBtn_pfl;
     private ImageView delBtn_pfl;
+    private ImageView smsBtn_pfl;
+    private ImageView mailBtn_pfl;
+    private ImageView locaBtn_pfl;
     private ImageView avatar_pfl;
     private TextView name_pfl;
     private TextView surname_pfl;
@@ -36,7 +38,9 @@ public class Profil extends AppCompatActivity {
     private TextView address_pfl;
     private TextView mail_pfl;
 
+    // Permissions storage
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE;
+    private int MY_PERMISSIONS_REQUEST_SEND_SMS;
 
     private long selectedContact;
 
@@ -47,6 +51,7 @@ public class Profil extends AppCompatActivity {
 
         mDbHelper = MainActivity.getDB();
 
+        // Retrieve contact id
         Intent intent = getIntent();
         selectedContact = intent.getLongExtra("id", 0);
 
@@ -57,6 +62,9 @@ public class Profil extends AppCompatActivity {
         modifyBtn = findViewById(R.id.modifyBtn);
         callBtn_pfl = findViewById(R.id.callBtn_pfl);
         delBtn_pfl = findViewById(R.id.delBtn_pfl);
+        smsBtn_pfl = findViewById(R.id.smsBtn_pfl);
+        mailBtn_pfl = findViewById(R.id.mailBtn_pfl);
+        locaBtn_pfl = findViewById(R.id.locaBtn_pfl);
         avatar_pfl = findViewById(R.id.avatar_pfl);
         name_pfl = findViewById(R.id.name_pfl);
         surname_pfl = findViewById(R.id.surname_pfl);
@@ -66,6 +74,8 @@ public class Profil extends AppCompatActivity {
 
         fillContactProfil();
 
+
+        // On click actions
         backBtn_pfl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +99,42 @@ public class Profil extends AppCompatActivity {
                     callIntent.setData(Uri.parse("tel:"+phone_pfl.getText().toString()));
                     startActivity(callIntent);
                 }
+            }
+        });
+
+        mailBtn_pfl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mailAddress = mail_pfl.getText().toString();
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto",mailAddress, null));
+                startActivity(emailIntent);
+            }
+        });
+
+        smsBtn_pfl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(Profil.this,
+                        Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(Profil.this,
+                            new String[]{Manifest.permission.SEND_SMS},
+                            MY_PERMISSIONS_REQUEST_SEND_SMS);
+                }else {
+                    Uri uri = Uri.parse("smsto:"+phone_pfl.getText().toString());
+                    Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        locaBtn_pfl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String location = address_pfl.getText().toString();
+                Uri uri = Uri.parse("geo:0,0?q="+location);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
 

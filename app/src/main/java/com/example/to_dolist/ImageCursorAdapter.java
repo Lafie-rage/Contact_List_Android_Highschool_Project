@@ -11,6 +11,12 @@ import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+/**
+ * Find on stackoverflow and adapted to the project structure.
+ *
+ * Class managing data with an image.
+ * Retrieving database information to set in on a view.
+ */
 public class ImageCursorAdapter extends SimpleCursorAdapter {
 
     private Cursor c;

@@ -71,7 +71,9 @@ public class CreateContact extends AppCompatActivity {
         mDbHelper = MainActivity.getDB();
 
         Intent intent = getIntent();
+        // Retrieving action
         action = intent.getStringExtra("action");
+        // Retrieving contact id
         id = intent.getLongExtra("id", -1);
 
         title_crt = findViewById(R.id.title_crt);
@@ -104,6 +106,12 @@ public class CreateContact extends AppCompatActivity {
 
     }
 
+    /**
+     * Used when returning from image picking.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -137,28 +145,16 @@ public class CreateContact extends AppCompatActivity {
         }
     }
 
-    private void fillContactProfil(long id) {
-
-        Cursor c = mDbHelper.fetchContact(id); // Show contact
-        startManagingCursor(c);
-        String[] from = new String[] {  ContactDbAdapter.KEY_NAME,
-                ContactDbAdapter.KEY_SURNAME,
-                ContactDbAdapter.KEY_IMAGE,
-                ContactDbAdapter.KEY_PHONE,
-                ContactDbAdapter.KEY_MAIL,
-                ContactDbAdapter.KEY_ADDRESS};
-        int[] to = new int[] {  R.id.name_crt,
-                R.id.surname_crt,
-                R.id.avatar_crt,
-                R.id.phone_crt,
-                R.id.mail_crt,
-                R.id.address_crt};
-
-        // Now create an array adapter and set it to display using our row
-        SimpleCursorAdapter contacts =
-                new SimpleCursorAdapter(this, R.layout.activity_create, c, from, to);
-    }
-
+    /**
+     * Creating a new contact with the data provided. Return true if it worked.
+     * @param name name
+     * @param surname surname
+     * @param phone phone
+     * @param mail mail address
+     * @param address postal address
+     * @param bitmap avatar's picture
+     * @return true if it worked. False otherwise.
+     */
     private boolean createUser(String name, String surname, String phone, String mail, String address, Bitmap bitmap) {
         // Converting Bitmap to byte array
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -169,16 +165,29 @@ public class CreateContact extends AppCompatActivity {
         return (rowId != -1);
     }
 
+    /**
+     * Updating a contact with the data provided. Return true if it worked.
+     * @param name new name
+     * @param surname new surname
+     * @param phone new phone number
+     * @param mail new mail address
+     * @param address new postal address
+     * @param bitmap new avatar's picture
+     * @return true if the update worked. False otherwise.
+     */
     private boolean updateUser(String name, String surname, String phone, String mail, String address, Bitmap bitmap) {
         if(id == -1) return false;
         // Converting Bitmap to byte array
-        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getWidth() * bitmap.getHeight());
-        bitmap.copyPixelsToBuffer(buffer);
-        byte[] avatar = buffer.array();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] avatar = stream.toByteArray();
 
         return mDbHelper.updateContact(id, name, surname, phone, mail, address, avatar);
     }
 
+    /**
+     * Setting view as a creation.
+     */
     private void setAsCreation() {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,16 +218,18 @@ public class CreateContact extends AppCompatActivity {
                     startActivity(intent);
                     return;
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
-                builder.setMessage("Une erreur est survenue lors de l'ajout du contact. Veuillez réessayer.");
-                builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        return;
-                    }
-                });
-                AlertDialog dialog = builder.show();
-                return;
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
+                    builder.setMessage("Une erreur est survenue lors de l'ajout du contact. Veuillez réessayer.");
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            return;
+                        }
+                    });
+                    AlertDialog dialog = builder.show();
+                    return;
+                }
             }
         });
         backBtn_crt.setOnClickListener(new View.OnClickListener() {
@@ -230,9 +241,13 @@ public class CreateContact extends AppCompatActivity {
         });
     }
 
+    /**
+     * Setting view as an update.
+     */
     private void setAsUpdate() {
         title_crt.setText("Modifier un contact");
         createBtn.setText("Modifier");
+        fillContactInfo();
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -284,6 +299,12 @@ public class CreateContact extends AppCompatActivity {
         });
     }
 
+    /**
+     * Convert a VectorDrawable to a Bitmap.
+     * @param context Application context
+     * @param drawable drawable to convert
+     * @return a bitmap corresponding to the drawable sent
+     */
     private static Bitmap getBitmapFromVectorDrawable(Context context, Drawable drawable) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             drawable = (DrawableCompat.wrap(drawable)).mutate();
@@ -299,9 +320,11 @@ public class CreateContact extends AppCompatActivity {
     }
 
     /**
-     * Checks if the app has permission to write to device storage
+     * Find on stackoverflow.
      *
-     * If the app does not has permission then the user will be prompted to grant permissions
+     * Checks if the app has permission to write to device storage.
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions.
      *
      * @param activity
      */
@@ -317,5 +340,74 @@ public class CreateContact extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    private void fillContactInfo() {
+
+        Cursor c = mDbHelper.fetchContact(id); // Show contact
+
+        if(c.moveToFirst()) {
+            // name
+            int index = c.getColumnIndex(ContactDbAdapter.KEY_NAME);
+            String name = c.getString(index);
+            name_crt.setText(name);
+
+            // surname
+            index = c.getColumnIndex(ContactDbAdapter.KEY_SURNAME);
+            String surname = c.getString(index);
+            surname_crt.setText(surname);
+
+            // phone
+            index = c.getColumnIndex(ContactDbAdapter.KEY_PHONE);
+            String phone = c.getString(index);
+            phone_crt.setText(phone);
+
+            // address
+            index = c.getColumnIndex(ContactDbAdapter.KEY_ADDRESS);
+            String address = c.getString(index);
+            address_crt.setText(address);
+
+            // mail
+            index = c.getColumnIndex(ContactDbAdapter.KEY_MAIL);
+            String mail = c.getString(index);
+            mail_crt.setText(mail);
+
+            // avatar
+            index = c.getColumnIndex(ContactDbAdapter.KEY_IMAGE);
+            byte[] bitmap = c.getBlob(index);
+            avatar_crt.setImageBitmap(BitmapFactory.decodeByteArray(bitmap,0, bitmap.length));
+        }
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateContact.this);
+            builder.setMessage("Une erreur est survenue lors de l'affichage des informations contact : " + id);
+            builder.setNeutralButton("Retourner au profil", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(CreateContact.this, Profil.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                    return;
+                }
+            });
+            AlertDialog dialog = builder.show();
+            return;
+        }
+
+        String[] from = new String[] {  ContactDbAdapter.KEY_NAME,
+                ContactDbAdapter.KEY_SURNAME,
+                ContactDbAdapter.KEY_IMAGE,
+                ContactDbAdapter.KEY_PHONE,
+                ContactDbAdapter.KEY_MAIL,
+                ContactDbAdapter.KEY_ADDRESS};
+        int[] to = new int[] {  R.id.name_crt,
+                R.id.surname_crt,
+                R.id.avatar_crt,
+                R.id.phone_crt,
+                R.id.mail_crt,
+                R.id.address_crt};
+
+        // Now create an array adapter and set it to display using our row
+        SimpleCursorAdapter contacts =
+                new SimpleCursorAdapter(this, R.layout.activity_create, c, from, to);
     }
 }

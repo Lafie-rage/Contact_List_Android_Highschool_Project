@@ -42,6 +42,7 @@ public class ContactDbAdapter {
     public static final String KEY_MAIL = "mail";
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_ISFAV = "isFav";
     public static final String KEY_ROWID = "_id";
 
     private static final String TAG = "contactsDbAdapter";
@@ -58,7 +59,8 @@ public class ContactDbAdapter {
                     + "phone text not null,"
                     + "mail text,"
                     + "address text ,"
-                    + "image blob);";
+                    + "image blob ,"
+                    + "isFav integer);";
 
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "contacts";
@@ -138,6 +140,7 @@ public class ContactDbAdapter {
         initialValues.put(KEY_MAIL, mail);
         initialValues.put(KEY_ADDRESS, address);
         initialValues.put(KEY_IMAGE, image);
+        initialValues.put(KEY_ISFAV, 0);
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
 
@@ -154,15 +157,26 @@ public class ContactDbAdapter {
 
 
     /**
-     * Return a Cursor over the list of all contacts in the database
+     * Return a Cursor over the list of all contacts that are not favorites in the database
      *
-     * @return Cursor over all contacts
+     * @return Cursor over all non favorite contacts
      */
     public Cursor fetchAllContacts() {
 
         return mDb.query(DATABASE_TABLE, new String[] {
             KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE, KEY_IMAGE
-        }, null, null, null, null, KEY_NAME + " ASC, " + KEY_SURNAME + " ASC, " + KEY_PHONE + " ASC");
+        }, KEY_ISFAV + "=0", null, null, null, KEY_NAME + " ASC, " + KEY_SURNAME + " ASC, " + KEY_PHONE + " ASC");
+    }
+
+    /**
+     * Return a Cursor over the list of all contacts that are favorites in the database
+     *
+     * @return Cursor over all favorite contacts
+     */
+    public Cursor fetchAllFav() {
+        return mDb.query(DATABASE_TABLE, new String[] {
+                KEY_ROWID, KEY_NAME, KEY_SURNAME, KEY_PHONE, KEY_IMAGE
+        }, KEY_ISFAV + "<>0", null, null, null, KEY_NAME + " ASC, " + KEY_SURNAME + " ASC, " + KEY_PHONE + " ASC");
     }
 
     /**
@@ -190,8 +204,8 @@ public class ContactDbAdapter {
 
     /**
      * Update the contact using the details provided. The contact to be updated is
-     * specified using the rowId, and it is altered to use the title
-     * value passed in
+     * specified using the rowId, and it is altered to use the datas
+     * passed in
      *
      * @param rowId id of contact to update
      * @param name the contact's name
@@ -211,6 +225,32 @@ public class ContactDbAdapter {
         args.put(KEY_MAIL, mail);
         args.put(KEY_ADDRESS, address);
         args.put(KEY_IMAGE, image);
+        return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    /**
+     * Set the contact as favorite. The contact to be updated is
+     * specified using the rowId.
+     *
+     * @param rowId id of contact to update
+     * @return true if the contact was successfully updated, false otherwise
+     */
+    public boolean setFavorite(long rowId) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_ISFAV, 1);
+        return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    /**
+     * Set the contact as non favorite. The contact to be updated is
+     * specified using the rowId.
+     *
+     * @param rowId id of contact to update
+     * @return true if the contact was successfully updated, false otherwise
+     */
+    public boolean setNonFavorite(long rowId) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_ISFAV, 0);
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 }

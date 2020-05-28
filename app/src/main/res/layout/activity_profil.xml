@@ -16,7 +16,7 @@
         android:textColor="@color/textPrimaryColor"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/delBtn_pfl"
         app:layout_constraintStart_toEndOf="@+id/backBtn_pfl"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,101 +24,147 @@
         android:id="@+id/modifyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         android:background="@color/colorPrimary"
         android:text="Modifier"
         android:textColor="@color/textPrimaryColor"
-        app:layout_constraintBottom_toBottomOf="@+id/delBtn_pfl"
-        app:layout_constraintEnd_toStartOf="@+id/delBtn_pfl"
+        app:layout_constraintBottom_toBottomOf="@+id/mailBtn_pfl"
+        app:layout_constraintEnd_toStartOf="@+id/mailBtn_pfl"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/callBtn_pfl"
-        app:layout_constraintTop_toTopOf="@+id/delBtn_pfl"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/smsBtn_pfl" />
 
     <ImageView
-        android:id="@+id/avatar_pfl"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="Avatar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_pfl"
-        app:srcCompat="@drawable/ic_action_name" />
+        android:id="@+id/smsBtn_pfl"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:tint="#D0D0D0"
+        app:layout_constraintBottom_toBottomOf="@+id/modifyBtn"
+        app:layout_constraintEnd_toStartOf="@+id/modifyBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/callBtn_pfl"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <TextView
-        android:id="@+id/surname_pfl"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+    <ImageView
+        android:id="@+id/locaBtn_pfl"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:gravity="center"
-        android:maxWidth="215dp"
-        android:text="Prénom"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/avatar_pfl"
-        app:layout_constraintTop_toTopOf="@+id/avatar_pfl" />
-
-    <TextView
-        android:id="@+id/phone_pfl"
-        android:layout_width="215dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="45dp"
-        android:gravity="center"
-        android:text="00.00.00.00.00"
-        android:textSize="18sp"
+        android:layout_marginBottom="20dp"
+        android:tint="#D0D0D0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_pfl" />
+        app:layout_constraintStart_toEndOf="@+id/mailBtn_pfl"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
 
-    <TextView
-        android:id="@+id/mail_pfl"
-        android:layout_width="215dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:text="exemple@mail.com"
-        android:textSize="18sp"
+    <ImageView
+        android:id="@+id/mailBtn_pfl"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        app:layout_constraintBottom_toBottomOf="@+id/locaBtn_pfl"
+        app:layout_constraintEnd_toStartOf="@+id/locaBtn_pfl"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/modifyBtn"
+        app:srcCompat="@drawable/mail" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/modifyBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address_pfl"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/title_pfl">
 
-    <TextView
-        android:id="@+id/address_pfl"
-        android:layout_width="215dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="45dp"
-        android:gravity="center"
-        android:text="00 rue exemple\nExemple 00000"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_pfl" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/name_pfl"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center"
-        android:maxWidth="215dp"
-        android:text="Nom"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/avatar_pfl"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/avatar_pfl" />
+            <TextView
+                android:id="@+id/phone_pfl"
+                android:layout_width="215dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="45dp"
+                android:gravity="center"
+                android:text="00.00.00.00.00"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname_pfl" />
+
+            <TextView
+                android:id="@+id/mail_pfl"
+                android:layout_width="215dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="exemple@mail.com"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/address_pfl" />
+
+            <TextView
+                android:id="@+id/surname_pfl"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:maxWidth="215dp"
+                android:text="Prénom"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/avatar_pfl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/avatar_pfl" />
+
+            <TextView
+                android:id="@+id/address_pfl"
+                android:layout_width="215dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="45dp"
+                android:gravity="center"
+                android:text="00 rue exemple\nExemple 00000"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_pfl" />
+
+            <TextView
+                android:id="@+id/name_pfl"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:maxWidth="215dp"
+                android:text="Nom"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/avatar_pfl"
+                app:layout_constraintTop_toTopOf="@+id/avatar_pfl" />
+
+            <ImageView
+                android:id="@+id/avatar_pfl"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="Avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_action_name" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <ImageView
         android:id="@+id/backBtn_pfl"
@@ -133,21 +179,20 @@
         android:id="@+id/callBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
-        app:layout_constraintBottom_toBottomOf="@+id/modifyBtn"
-        app:layout_constraintEnd_toStartOf="@+id/modifyBtn"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/smsBtn_pfl"
+        app:layout_constraintEnd_toStartOf="@+id/smsBtn_pfl"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/modifyBtn"
         app:srcCompat="@android:drawable/ic_menu_call" />
 
     <ImageView
         android:id="@+id/delBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/modifyBtn"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_delete" />
 </androidx.constraintlayout.widget.ConstraintLayout>
