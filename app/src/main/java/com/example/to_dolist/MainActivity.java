@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -29,6 +30,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.util.List;
 
 /**
@@ -39,6 +43,7 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity {
+
 
     // Data base
     private static ContactDbAdapter mDbHelper;
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     // Permissions variables
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE;
     private int MY_PERMISSIONS_REQUEST_SEND_SMS;
+    private int ZXING_CAMERA_PERMISSION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(MainActivity.this, Profil.class);
+            intent.putExtra("action", "default");
             intent.putExtra("id", id);
             startActivity(intent);
             }
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, Profil.class);
+                intent.putExtra("action", "default");
                 intent.putExtra("id", id);
                 startActivity(intent);
             }
@@ -203,6 +211,9 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("action", action);
                 startActivity(intent);
                 return true;
+            case R.id.addQrCode:
+                launchActivity(SimpleScannerActivity.class);
+                return true;
             // Show only favorites
             case R.id.favOnly:
                 // Changing view dynamically
@@ -276,6 +287,18 @@ public class MainActivity extends AppCompatActivity {
                 from,
                 to);
         favListView.setAdapter(contacts);
+    }
+
+    public void launchActivity(Class<?> clss) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            Class<?> mClss = clss;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
+        } else {
+            Intent intent = new Intent(this, clss);
+            startActivity(intent);
+        }
     }
 
     /**

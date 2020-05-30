@@ -20,39 +20,25 @@
         app:layout_constraintStart_toEndOf="@+id/backBtn_pfl"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/modifyBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Modifier"
-        android:textColor="@color/textPrimaryColor"
-        app:layout_constraintBottom_toBottomOf="@+id/mailBtn_pfl"
-        app:layout_constraintEnd_toStartOf="@+id/mailBtn_pfl"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/smsBtn_pfl" />
-
     <ImageView
         android:id="@+id/smsBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
         android:tint="#D0D0D0"
-        app:layout_constraintBottom_toBottomOf="@+id/modifyBtn"
-        app:layout_constraintEnd_toStartOf="@+id/modifyBtn"
+        app:layout_constraintEnd_toStartOf="@+id/mailBtn_pfl"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/callBtn_pfl"
+        app:layout_constraintTop_toTopOf="@+id/mailBtn_pfl"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <ImageView
         android:id="@+id/locaBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:tint="#D0D0D0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/qrcodeBtn_pfl"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/mailBtn_pfl"
         app:srcCompat="@android:drawable/ic_dialog_map" />
@@ -61,16 +47,38 @@
         android:id="@+id/mailBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
-        app:layout_constraintBottom_toBottomOf="@+id/locaBtn_pfl"
         app:layout_constraintEnd_toStartOf="@+id/locaBtn_pfl"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/modifyBtn"
+        app:layout_constraintStart_toEndOf="@+id/smsBtn_pfl"
+        app:layout_constraintTop_toTopOf="@+id/locaBtn_pfl"
         app:srcCompat="@drawable/mail" />
+
+    <ImageView
+        android:id="@+id/modifyBtn_pfl"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:tint="#D0D0D0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/qrcodeBtn_pfl"
+        app:layout_constraintTop_toTopOf="@+id/qrcodeBtn_pfl"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/qrcodeBtn_pfl"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        app:layout_constraintEnd_toStartOf="@+id/modifyBtn_pfl"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/locaBtn_pfl"
+        app:layout_constraintTop_toTopOf="@+id/locaBtn_pfl"
+        app:srcCompat="@drawable/qr_code" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/modifyBtn"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/modifyBtn_pfl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_pfl">
@@ -163,6 +171,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_action_name" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -179,12 +188,10 @@
         android:id="@+id/callBtn_pfl"
         android:layout_width="53dp"
         android:layout_height="53dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/smsBtn_pfl"
         app:layout_constraintEnd_toStartOf="@+id/smsBtn_pfl"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/smsBtn_pfl"
         app:srcCompat="@android:drawable/ic_menu_call" />
 
     <ImageView
@@ -195,4 +202,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_delete" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

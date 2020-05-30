@@ -5,6 +5,9 @@
         android:id="@+id/addContact"
         android:title="Ajouter un conctact" />
     <item
+        android:id="@+id/addQrCode"
+        android:title="Ajouter par QRCode" />
+    <item
         android:id="@+id/favOnly"
         android:title="Uniquement les favoris" />
 

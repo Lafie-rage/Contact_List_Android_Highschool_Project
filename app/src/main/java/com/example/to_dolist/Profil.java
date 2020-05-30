@@ -9,14 +9,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
 
 public class Profil extends AppCompatActivity {
 
@@ -25,7 +27,8 @@ public class Profil extends AppCompatActivity {
 
     // Layout contents
     private ImageView backBtn_pfl;
-    private Button modifyBtn;
+    private ImageView modifyBtn_pfl;
+    private ImageView qrcodeBtn_pfl;
     private ImageView callBtn_pfl;
     private ImageView delBtn_pfl;
     private ImageView smsBtn_pfl;
@@ -42,7 +45,9 @@ public class Profil extends AppCompatActivity {
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE;
     private int MY_PERMISSIONS_REQUEST_SEND_SMS;
 
-    private long selectedContact;
+    private String action;
+    private long id;
+    private String qrStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +56,10 @@ public class Profil extends AppCompatActivity {
 
         mDbHelper = MainActivity.getDB();
 
-        // Retrieve contact id
-        Intent intent = getIntent();
-        selectedContact = intent.getLongExtra("id", 0);
-
-
-
         // Profil page
         backBtn_pfl = findViewById(R.id.backBtn_pfl);
-        modifyBtn = findViewById(R.id.modifyBtn);
+        modifyBtn_pfl = findViewById(R.id.modifyBtn_pfl);
+        qrcodeBtn_pfl = findViewById(R.id.qrcodeBtn_pfl);
         callBtn_pfl = findViewById(R.id.callBtn_pfl);
         delBtn_pfl = findViewById(R.id.delBtn_pfl);
         smsBtn_pfl = findViewById(R.id.smsBtn_pfl);
@@ -72,7 +72,18 @@ public class Profil extends AppCompatActivity {
         address_pfl = findViewById(R.id.address_pfl);
         mail_pfl = findViewById(R.id.mail_pfl);
 
-        fillContactProfil();
+        // Retrieve contact id
+        Intent intent = getIntent();
+        action = intent.getStringExtra("action");
+        if(action.equals("qrCode")) {
+            qrStr = intent.getStringExtra("qrStr");
+            fillContactProfilByQr(qrStr);
+        }
+        else {
+            id = intent.getLongExtra("id", 0);
+            fillContactProfil();
+        }
+
 
 
         // On click actions
@@ -81,6 +92,58 @@ public class Profil extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Profil.this, MainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        qrcodeBtn_pfl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor c = mDbHelper.fetchContact(id); // Show contact
+
+                if(c.moveToFirst()) {
+                    // name
+                    int index = c.getColumnIndex(ContactDbAdapter.KEY_NAME);
+                    String name = c.getString(index);
+
+                    // surname
+                    index = c.getColumnIndex(ContactDbAdapter.KEY_SURNAME);
+                    String surname = c.getString(index);
+
+                    // phone
+                    index = c.getColumnIndex(ContactDbAdapter.KEY_PHONE);
+                    String phone = c.getString(index);
+
+                    // address
+                    index = c.getColumnIndex(ContactDbAdapter.KEY_ADDRESS);
+                    String address = c.getString(index);
+
+                    // mail
+                    index = c.getColumnIndex(ContactDbAdapter.KEY_MAIL);
+                    String mail = c.getString(index);
+
+                    // avatar
+                    index = c.getColumnIndex(ContactDbAdapter.KEY_IMAGE);
+                    byte[] bitmap = c.getBlob(index);
+                    String qrStr = QrCode_activity.convertContactToString(name, surname, phone, mail, address);
+                    Intent intent = new Intent(Profil.this, QrCode_activity.class);
+                    intent.putExtra("qrStr", qrStr);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Profil.this);
+                    builder.setMessage("Une erreur est survenue lors de l'affichage du contact : " + id);
+                    builder.setNeutralButton("Retourner à l'accueil", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(Profil.this, MainActivity.class);
+                            startActivity(intent);
+                            return;
+                        }
+                    });
+                    AlertDialog dialog = builder.show();
+                    return;
+                }
             }
         });
 
@@ -141,19 +204,19 @@ public class Profil extends AppCompatActivity {
         delBtn_pfl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDbHelper.deleteContact(selectedContact);
+                mDbHelper.deleteContact(id);
                 Intent intent = new Intent(Profil.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        modifyBtn.setOnClickListener(new View.OnClickListener() {
+        modifyBtn_pfl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Profil.this, CreateContact.class);
                 String action = "update";
                 intent.putExtra("action", action);
-                intent.putExtra("id", selectedContact);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
@@ -161,7 +224,7 @@ public class Profil extends AppCompatActivity {
 
     private void fillContactProfil() {
 
-        Cursor c = mDbHelper.fetchContact(selectedContact); // Show contact
+        Cursor c = mDbHelper.fetchContact(id); // Show contact
 
         if(c.moveToFirst()) {
             // name
@@ -196,7 +259,7 @@ public class Profil extends AppCompatActivity {
         }
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(Profil.this);
-            builder.setMessage("Une erreur est survenue lors de l'affichage du contact : " + selectedContact);
+            builder.setMessage("Une erreur est survenue lors de l'affichage du contact : " + id);
             builder.setNeutralButton("Retourner à l'accueil", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
@@ -225,5 +288,56 @@ public class Profil extends AppCompatActivity {
         // Now create an array adapter and set it to display using our row
         SimpleCursorAdapter contacts =
                 new SimpleCursorAdapter(this, R.layout.activity_create, c, from, to);
+    }
+
+    private void fillContactProfilByQr(String qrStr) {
+        // name
+        String name = qrStr.substring(qrStr.indexOf("NAME:")+5, qrStr.indexOf("SURNAME:"));
+        name_pfl.setText(name);
+
+        // surname
+        String surname = qrStr.substring(qrStr.indexOf("SURNAME:")+8, qrStr.indexOf("PHONE:"));
+        surname_pfl.setText(surname);
+
+        // phone
+        String phone = qrStr.substring(qrStr.indexOf("PHONE:")+6, qrStr.indexOf("MAIL:"));
+        phone_pfl.setText(phone);
+
+        // mail
+        String mail = qrStr.substring(qrStr.indexOf("MAIL:")+5, qrStr.indexOf("ADDRESS:"));
+        mail_pfl.setText(mail);
+
+        // address
+        String address = qrStr.substring(qrStr.indexOf("ADDRESS:")+8);
+        address_pfl.setText(address);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Profil.this);
+        builder.setMessage("Voulez vous ajouter ce contact ?");
+        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(Profil.this, MainActivity.class);
+                startActivity(intent);
+                return;
+            }
+        });
+        builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                String name = name_pfl.getText().toString();
+                String surname = surname_pfl.getText().toString();
+                String phone = phone_pfl.getText().toString();
+                String mail = mail_pfl.getText().toString();
+                String address = address_pfl.getText().toString();
+                Bitmap bitmap = CreateContact.getBitmapFromVectorDrawable(Profil.this, avatar_pfl.getDrawable());
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] avatar = stream.toByteArray();
+                mDbHelper.createContact(name, surname, phone, mail, address, avatar);
+                return;
+            }
+        });
+        AlertDialog dialog = builder.show();
+        return;
     }
 }

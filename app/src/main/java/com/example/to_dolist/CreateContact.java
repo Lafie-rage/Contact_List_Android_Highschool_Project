@@ -305,7 +305,7 @@ public class CreateContact extends AppCompatActivity {
      * @param drawable drawable to convert
      * @return a bitmap corresponding to the drawable sent
      */
-    private static Bitmap getBitmapFromVectorDrawable(Context context, Drawable drawable) {
+    public static Bitmap getBitmapFromVectorDrawable(Context context, Drawable drawable) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             drawable = (DrawableCompat.wrap(drawable)).mutate();
         }
