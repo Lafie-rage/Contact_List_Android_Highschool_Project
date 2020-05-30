@@ -3,7 +3,6 @@ package com.example.to_dolist;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.Manifest;
@@ -16,7 +15,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -31,8 +29,6 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 
 public class CreateContact extends AppCompatActivity {
 
@@ -342,6 +338,9 @@ public class CreateContact extends AppCompatActivity {
         }
     }
 
+    /**
+     * Fill contacts info when on update mode.
+     */
     private void fillContactInfo() {
 
         Cursor c = mDbHelper.fetchContact(id); // Show contact

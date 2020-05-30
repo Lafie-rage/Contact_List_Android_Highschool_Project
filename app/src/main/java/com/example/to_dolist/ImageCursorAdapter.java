@@ -12,7 +12,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 /**
- * Find on stackoverflow and adapted to the project structure.
+ * Find on Stack Overflow and adapted to the project structure.
  *
  * Class managing data with an image.
  * Retrieving database information to set in on a view.

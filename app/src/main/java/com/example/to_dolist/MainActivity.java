@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     // Permissions variables
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE;
     private int MY_PERMISSIONS_REQUEST_SEND_SMS;
-    private int ZXING_CAMERA_PERMISSION;
+    private static final int ZXING_CAMERA_PERMISSION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Data base interaction
+    // Data base interactions
 
     /**
      * Fill list view with all non favorites contacts.
@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
         contactListView.setAdapter(contacts);
         fillFavList();
     }
+
     /**
      * Fill list view with all favorites contacts.
      */
@@ -289,6 +290,11 @@ public class MainActivity extends AppCompatActivity {
         favListView.setAdapter(contacts);
     }
 
+    /**
+     * Method launching an activity. Used for the scanning activity.
+     * Code sample from https://github.com/dm77/barcodescanner/blob/f8218eb9d7066fff7f4862bb27b3b3a6da7d3e42/zxing-sample/src/main/java/me/dm7/barcodescanner/zxing/sample/MainActivity.java#L58.
+     * @param clss Activity to launch
+     */
     public void launchActivity(Class<?> clss) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {

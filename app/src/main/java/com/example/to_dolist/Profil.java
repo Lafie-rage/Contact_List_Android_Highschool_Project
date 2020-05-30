@@ -222,6 +222,10 @@ public class Profil extends AppCompatActivity {
         });
     }
 
+    /**
+     * Fill contact info. Used on default action.
+     * Retrieving info from database
+     */
     private void fillContactProfil() {
 
         Cursor c = mDbHelper.fetchContact(id); // Show contact
@@ -290,6 +294,11 @@ public class Profil extends AppCompatActivity {
                 new SimpleCursorAdapter(this, R.layout.activity_create, c, from, to);
     }
 
+    /**
+     * Fill contact info. Used on QR Code mode.
+     * Retrieving info from the String provided in parameter.
+     * @param qrStr raw content of the QRCode scanned
+     */
     private void fillContactProfilByQr(String qrStr) {
         // name
         String name = qrStr.substring(qrStr.indexOf("NAME:")+5, qrStr.indexOf("SURNAME:"));

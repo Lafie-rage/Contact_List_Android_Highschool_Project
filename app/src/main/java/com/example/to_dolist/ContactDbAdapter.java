@@ -155,7 +155,6 @@ public class ContactDbAdapter {
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
 
-
     /**
      * Return a Cursor over the list of all contacts that are not favorites in the database
      *
